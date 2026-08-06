@@ -1,15 +1,53 @@
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Montserrat:wght@300;400;500;600&display=swap');
 @import "tailwindcss";
 
-@theme inline {
+/* ── the palette ──────────────────────────────────────────────────────────────
+   Named once here so a page never spells a hex code. Tailwind v4 generates the
+   utilities from these directly — `--color-gold-400` yields text-gold-400,
+   border-gold-400, bg-gold-400/15 and the rest — so the site can grow to dozens
+   of pages without the ramp being re-typed and drifting on each one.
+
+   The ramp is small on purpose. Two families do all the work: OBSIDIAN, the
+   near-black the whole site sits on, and GOLD, which is the only chromatic
+   colour in the design. Everything else is warm off-white type. */
+@theme {
   --font-sans: "Montserrat", sans-serif;
   --font-display: "Cormorant Garamond", Georgia, serif;
+
+  /* Obsidian — page, sections, cards, hover. Numbered so higher is lighter,
+     matching the mental model of a surface being raised toward the viewer. */
+  --color-obsidian-900: #060505;  /* footer, the deepest step */
+  --color-obsidian-800: #080706;  /* page ground */
+  --color-obsidian-700: #0a0908;  /* section bands */
+  --color-obsidian-600: #0c0b09;  /* cards */
+  --color-obsidian-500: #12100c;  /* card hover */
+
+  /* Gold. 500 is the structural one — rules, borders, hairlines — and is almost
+     always used at low alpha (gold-500/20). 400 is icons and links, 300 is
+     headings, 200 is the hover lift, 600 is the dark end of button gradients. */
+  --color-gold-600: #b08c42;
+  --color-gold-500: #b59655;
+  --color-gold-400: #c9a961;
+  --color-gold-300: #d9bd7c;
+  --color-gold-200: #e5cd92;
+
+  /* Parchment — body copy and headings over obsidian. */
+  --color-parchment-300: #d8cdb5;  /* quiet: quotations, secondary */
+  --color-parchment-200: #e9e2d3;  /* body */
+  --color-parchment-100: #efe7d6;  /* headings */
 }
 
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
-body { margin: 0; background: #080706; font-family: "Montserrat", sans-serif; }
-.font-display { font-family: "Cormorant Garamond", Georgia, serif; }
+body {
+  margin: 0;
+  background: var(--color-obsidian-800);
+  font-family: var(--font-sans);
+}
+/* Kept as a class as well as a token: `font-display` reads better on a heading
+   than repeating the family, and Tailwind's generated font-display utility
+   resolves to the same variable. */
+.font-display { font-family: var(--font-display); }
 
 /* ── the hero plate ───────────────────────────────────────────────────────────
    The temple interior itself: pharaoh and columns at the edges, the Flower of
@@ -22,7 +60,7 @@ body { margin: 0; background: #080706; font-family: "Montserrat", sans-serif; }
    as the viewport narrows, both edges crop inward evenly and the statue and the
    emblem leave the frame together rather than one surviving alone. */
 .codex-hero {
-  background-color: #080706;
+  background-color: var(--color-obsidian-800);
   background-image:
     /* A warm bloom where the plate's own lamplight falls, lifted slightly so the
        wordmark has something to sit against. */
