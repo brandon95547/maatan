@@ -222,41 +222,6 @@ function WingedEye({ className = "" }: { className?: string }) {
   );
 }
 
-/**
- * The Flower of Life: nineteen circles on a hexagonal lattice, inside two rings.
- *
- * Drawn rather than approximated in CSS. An earlier version stacked repeating
- * radial-gradients and had to hand-place each ring — which produced a cluster
- * rather than the lattice, because the pattern's geometry is polar and
- * background-position is not. Here the construction IS the code: every centre
- * sits at a multiple of the radius around the origin.
- */
-function FlowerOfLife({ className = "" }: { className?: string }) {
-  const R = 24;
-  const ring = (count: number, dist: number, offsetDeg: number) =>
-    Array.from({ length: count }, (_, i) => {
-      const a = ((offsetDeg + i * (360 / count)) * Math.PI) / 180;
-      return [at(100 + dist * Math.cos(a)), at(100 + dist * Math.sin(a))] as const;
-    });
-
-  const centres = [
-    [100, 100] as const,
-    ...ring(6, R, 0),
-    ...ring(6, R * Math.sqrt(3), 30),
-    ...ring(6, R * 2, 0),
-  ];
-
-  return (
-    <svg viewBox="0 0 200 200" fill="none" stroke="currentColor" className={className}>
-      <circle cx="100" cy="100" r={at(R * 3)} strokeWidth="1.4" opacity=".75" />
-      <circle cx="100" cy="100" r={at(R * 3 + 5)} strokeWidth="0.8" opacity=".4" />
-      {centres.map(([cx, cy], i) => (
-        <circle key={i} cx={cx} cy={cy} r={R} strokeWidth="0.9" opacity=".7" />
-      ))}
-    </svg>
-  );
-}
-
 /** A rule that fades out from the centre — used either side of the wordmark rule. */
 function Rule({ className = "" }: { className?: string }) {
   return <span className={`block h-px bg-gradient-to-r from-transparent via-[#b59655]/60 to-transparent ${className}`} />;
@@ -359,18 +324,9 @@ export default function Home() {
 
       {/* ── hero ── */}
       <section id="top" className="codex-hero relative overflow-hidden pt-[74px]">
-        {/* Ornamental background. Standing in for the mockup's photographic
-            temple plate — see the note in globals.css. */}
-        <div className="pointer-events-none absolute inset-0" aria-hidden="true">
-          <FlowerOfLife className="flower-of-life absolute left-[6%] top-[24%] hidden h-[340px] w-[340px] text-[#b59655]/45 lg:block" />
-          <div className="absolute right-[5%] top-[22%] hidden h-[360px] w-[360px] place-items-center lg:grid">
-            <IconCompass className="h-full w-full text-[#b59655]/25" />
-            <div className="absolute inset-0 rounded-full border border-[#b59655]/15" />
-          </div>
-          <div className="colonnade colonnade-left absolute inset-y-0 left-0 hidden w-[16%] xl:block" />
-          <div className="colonnade colonnade-right absolute inset-y-0 right-0 hidden w-[16%] xl:block" />
-        </div>
-
+        {/* No ornament layer. The plate behind this section carries the statue,
+            the columns, the Flower of Life and the square-and-compasses as
+            artwork — drawing vector copies over it would double every symbol. */}
         <div className="relative mx-auto max-w-[1160px] px-5 pb-16 pt-16 text-center lg:pb-24 lg:pt-24">
           <h1 className="font-display text-[clamp(3.2rem,11vw,8.5rem)] font-medium leading-[0.95] tracking-[.14em] text-[#d9bd7c] drop-shadow-[0_0_60px_rgba(201,169,97,.25)]">
             MAATAN

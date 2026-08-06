@@ -12,66 +12,29 @@ body { margin: 0; background: #080706; font-family: "Montserrat", sans-serif; }
 .font-display { font-family: "Cormorant Garamond", Georgia, serif; }
 
 /* ── the hero plate ───────────────────────────────────────────────────────────
-   The design places the wordmark against a photographed temple interior — a
-   pharaoh in profile, stone columns, gilded relief. There is no such artwork in
-   this repository, so the atmosphere is built instead: a warm bloom behind the
-   wordmark where the light source sits in the mockup, a colder falloff at the
-   edges, and a faint grid standing in for the geometry etched across the plate.
-   Dropping a real image in later means adding a background-image here; nothing
-   in the markup assumes one is absent. */
+   The temple interior itself: pharaoh and columns at the edges, the Flower of
+   Life and the square-and-compasses in gold, and a floor of etched geometry.
+   The plate is composed with an empty middle, which is what the wordmark, the
+   tagline and the search field sit in — so the layers stacked over it here only
+   deepen that emptiness, never fill it.
+
+   `cover` with a centred focal point, because the composition is symmetrical:
+   as the viewport narrows, both edges crop inward evenly and the statue and the
+   emblem leave the frame together rather than one surviving alone. */
 .codex-hero {
-  background:
-    radial-gradient(ellipse 60% 50% at 50% 38%, rgba(201, 169, 97, .13), transparent 70%),
-    radial-gradient(ellipse 80% 60% at 50% 100%, rgba(28, 22, 14, .9), transparent 70%),
-    linear-gradient(180deg, #0b0a08 0%, #0e0c09 45%, #080706 100%);
-}
-
-/* Etched geometry, masked away from the centre so it never competes with the
-   wordmark or the search field sitting on top of it. */
-.codex-hero::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  opacity: .5;
+  background-color: #080706;
   background-image:
-    linear-gradient(rgba(201, 170, 104, .05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(201, 170, 104, .04) 1px, transparent 1px);
-  background-size: 104px 104px;
-  -webkit-mask-image: radial-gradient(ellipse 55% 55% at 50% 45%, transparent 30%, #000 85%);
-  mask-image: radial-gradient(ellipse 55% 55% at 50% 45%, transparent 30%, #000 85%);
-}
-
-/* The Flower of Life is drawn in page.tsx — its geometry is polar and belongs in
-   code that can express it. This only lights it. */
-.flower-of-life {
-  filter: drop-shadow(0 0 24px rgba(201, 169, 97, .18));
-}
-
-/* ── colonnade ────────────────────────────────────────────────────────────────
-   The mockup frames the hero with stone pillars. Repeating linear-gradients give
-   the rhythm of columns and their shadowed flutes, faded toward the middle so
-   the frame suggests depth rather than drawing a picture. */
-.colonnade {
-  background-image:
-    repeating-linear-gradient(90deg,
-      rgba(201, 169, 97, .09) 0 2px,
-      transparent 2px 14px,
-      rgba(0, 0, 0, .55) 14px 30px,
-      transparent 30px 44px);
-  opacity: .55;
-}
-.colonnade-left {
-  -webkit-mask-image: linear-gradient(90deg, #000, transparent);
-  mask-image: linear-gradient(90deg, #000, transparent);
-}
-.colonnade-right {
-  -webkit-mask-image: linear-gradient(270deg, #000, transparent);
-  mask-image: linear-gradient(270deg, #000, transparent);
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .flower-of-life { animation: codex-breathe 14s ease-in-out infinite; }
-  @keyframes codex-breathe {
-    50% { opacity: .28; transform: scale(.985); }
-  }
+    /* A warm bloom where the plate's own lamplight falls, lifted slightly so the
+       wordmark has something to sit against. */
+    radial-gradient(ellipse 55% 45% at 50% 34%, rgba(201, 169, 97, .10), transparent 72%),
+    /* Contrast insurance. The middle of the plate is dark but not uniformly so,
+       and this keeps the type's background predictable wherever it crops to. */
+    radial-gradient(ellipse 62% 58% at 50% 46%, rgba(8, 7, 6, .72), transparent 78%),
+    /* Edge falloff, and a hard seal at the bottom so the plate meets the
+       category row below it without a visible seam. */
+    linear-gradient(180deg, rgba(8, 7, 6, .78) 0%, transparent 22%, transparent 62%, #080706 99%),
+    url("/hero-codex.webp");
+  background-size: auto, auto, auto, cover;
+  background-position: center, center, center, center 42%;
+  background-repeat: no-repeat;
 }
