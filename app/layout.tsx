@@ -13,8 +13,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Starter Project",
-  description: "A clean starting point for building your site.",
+  title: "Maatan — The Hidden Codex",
+  description:
+    "A codex of eternal truths, timeless wisdom, and the mysteries of existence. Explore humanity's most interconnected library of esoteric knowledge, sacred texts, ancient symbols, and mystical traditions.",
   other: {
     "codex-preview": "development",
   },

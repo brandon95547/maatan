@@ -1,20 +1,77 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;1,500&family=Montserrat:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Montserrat:wght@300;400;500;600&display=swap');
 @import "tailwindcss";
 
-@theme inline { --font-sans: "Montserrat", sans-serif; --font-display: "Cormorant Garamond", Georgia, serif; }
+@theme inline {
+  --font-sans: "Montserrat", sans-serif;
+  --font-display: "Cormorant Garamond", Georgia, serif;
+}
+
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
-body { margin:0; background:#060606; font-family:"Montserrat",sans-serif; }
-.font-display { font-family:"Cormorant Garamond",Georgia,serif; }
-.gothic-hero { background:radial-gradient(circle at 72% 43%,rgba(181,150,85,.09),transparent 25%),linear-gradient(110deg,#050505 38%,#0d0c0b 100%); }
-.gothic-hero:before { content:""; position:absolute; inset:0; opacity:.2; background-image:linear-gradient(rgba(201,170,104,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(201,170,104,.05) 1px,transparent 1px); background-size:90px 90px; mask-image:linear-gradient(90deg,transparent,#000 60%,transparent); }
-.gothic-arch { border:1px solid rgba(181,150,85,.22); border-radius:48% 48% 2% 2% / 38% 38% 2% 2%; box-shadow:inset 0 0 80px #000,0 0 70px rgba(181,150,85,.05); }
-.gothic-arch:before,.gothic-arch:after { content:""; position:absolute; inset:4%; border:1px solid rgba(181,150,85,.12); border-radius:48% 48% 2% 2% / 38% 38% 2% 2%; }.gothic-arch:after { inset:9%; }
-.geometry { position:absolute; left:50%; top:46%; width:min(70%,580px); aspect-ratio:1; transform:translate(-50%,-50%); display:grid; place-items:center; filter:drop-shadow(0 0 22px rgba(201,170,104,.15)); }
-.geo-orbit { position:absolute; border:1px solid rgba(201,170,104,.55); border-radius:50%; }.geo-orbit-1{inset:4%}.geo-orbit-2{inset:15%;border-style:dashed}.geo-orbit-3{inset:28%}
-.geo-diamond { position:absolute; width:53%; height:53%; border:1px solid rgba(201,170,104,.5); transform:rotate(45deg); }.geo-diamond-2{transform:rotate(0deg)}
-.geo-center { width:18%; aspect-ratio:1; border:1px solid #c9aa68; border-radius:50%; display:grid; place-items:center; color:#d7bd7d; box-shadow:0 0 40px rgba(201,170,104,.18); }.geometry>i { position:absolute; width:43%; height:1px; transform-origin:0 50%!important; left:50%; top:50%; background:linear-gradient(90deg,rgba(201,170,104,.55),transparent); }
-.ornate-button { border:1px solid #b59655; color:#d9c284; background:linear-gradient(100deg,rgba(181,150,85,.14),rgba(181,150,85,.03)); box-shadow:inset 0 0 0 4px #070707,inset 0 0 0 5px rgba(181,150,85,.24); transition:.3s; }.ornate-button:hover{background:#b59655;color:#090806;}
-.sacred-icon { position:relative; border:1px solid rgba(181,150,85,.35); transform:rotate(45deg); }.sacred-icon>* ,.sacred-icon { }.sacred-icon { border-radius:50%; transform:none; }.sacred-icon:before,.sacred-icon:after { content:""; position:absolute; inset:14%; border:1px solid rgba(181,150,85,.24); transform:rotate(45deg); }.sacred-icon:after{transform:rotate(0)}
-@media(max-width:1023px){.gothic-hero:after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 75% 45%,rgba(181,150,85,.12),transparent 38%);}}
-@media(prefers-reduced-motion:no-preference){.geo-orbit-2{animation:spin 40s linear infinite}.geo-diamond{animation:pulse 5s ease-in-out infinite}@keyframes spin{to{transform:rotate(360deg)}}@keyframes pulse{50%{opacity:.35;transform:rotate(45deg) scale(.96)}}}
+body { margin: 0; background: #080706; font-family: "Montserrat", sans-serif; }
+.font-display { font-family: "Cormorant Garamond", Georgia, serif; }
+
+/* ── the hero plate ───────────────────────────────────────────────────────────
+   The design places the wordmark against a photographed temple interior — a
+   pharaoh in profile, stone columns, gilded relief. There is no such artwork in
+   this repository, so the atmosphere is built instead: a warm bloom behind the
+   wordmark where the light source sits in the mockup, a colder falloff at the
+   edges, and a faint grid standing in for the geometry etched across the plate.
+   Dropping a real image in later means adding a background-image here; nothing
+   in the markup assumes one is absent. */
+.codex-hero {
+  background:
+    radial-gradient(ellipse 60% 50% at 50% 38%, rgba(201, 169, 97, .13), transparent 70%),
+    radial-gradient(ellipse 80% 60% at 50% 100%, rgba(28, 22, 14, .9), transparent 70%),
+    linear-gradient(180deg, #0b0a08 0%, #0e0c09 45%, #080706 100%);
+}
+
+/* Etched geometry, masked away from the centre so it never competes with the
+   wordmark or the search field sitting on top of it. */
+.codex-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: .5;
+  background-image:
+    linear-gradient(rgba(201, 170, 104, .05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(201, 170, 104, .04) 1px, transparent 1px);
+  background-size: 104px 104px;
+  -webkit-mask-image: radial-gradient(ellipse 55% 55% at 50% 45%, transparent 30%, #000 85%);
+  mask-image: radial-gradient(ellipse 55% 55% at 50% 45%, transparent 30%, #000 85%);
+}
+
+/* The Flower of Life is drawn in page.tsx — its geometry is polar and belongs in
+   code that can express it. This only lights it. */
+.flower-of-life {
+  filter: drop-shadow(0 0 24px rgba(201, 169, 97, .18));
+}
+
+/* ── colonnade ────────────────────────────────────────────────────────────────
+   The mockup frames the hero with stone pillars. Repeating linear-gradients give
+   the rhythm of columns and their shadowed flutes, faded toward the middle so
+   the frame suggests depth rather than drawing a picture. */
+.colonnade {
+  background-image:
+    repeating-linear-gradient(90deg,
+      rgba(201, 169, 97, .09) 0 2px,
+      transparent 2px 14px,
+      rgba(0, 0, 0, .55) 14px 30px,
+      transparent 30px 44px);
+  opacity: .55;
+}
+.colonnade-left {
+  -webkit-mask-image: linear-gradient(90deg, #000, transparent);
+  mask-image: linear-gradient(90deg, #000, transparent);
+}
+.colonnade-right {
+  -webkit-mask-image: linear-gradient(270deg, #000, transparent);
+  mask-image: linear-gradient(270deg, #000, transparent);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .flower-of-life { animation: codex-breathe 14s ease-in-out infinite; }
+  @keyframes codex-breathe {
+    50% { opacity: .28; transform: scale(.985); }
+  }
+}

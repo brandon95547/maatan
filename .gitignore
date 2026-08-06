@@ -42,3 +42,5 @@ next-env.d.ts
 /work/
 # vinext's font cache — regenerated on every dev/build run
 /.vinext/
+# tsc's incremental build cache
+*.tsbuildinfo
