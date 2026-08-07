@@ -11,9 +11,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { KIND_LABEL, TOPIC_SLUGS, TOPICS, topicBySlug } from "@/lib/taxonomy";
+import { KIND_LABEL, TOPIC_SLUGS, TOPICS, topicBySlug, type EntityKind } from "@/lib/taxonomy";
+import { entitiesForTopic } from "@/lib/codex";
+import { entityDate } from "@/lib/format";
 import { PageShell } from "@/components/PageShell";
 import { Icon } from "@/components/icons";
+import { EntityLink } from "@/components/EntityLink";
 
 // Only the known topics resolve here. Without this, /anything renders a page
 // shell for a topic that does not exist rather than a 404 — bad for a reader and
@@ -53,6 +56,10 @@ export default async function TopicPage({
   const topic = topicBySlug(slug);
   if (!topic) notFound();
 
+  // What actually exists in the codex under this topic. Empty until the seed has
+  // run, which is why the outline below it is not conditional on this.
+  const written = await entitiesForTopic(topic.slug);
+
   // The other topics, for the "continue" rail at the foot of the page. Reading
   // them from the taxonomy means the rail can never fall out of step with the nav.
   const siblings = TOPICS.filter((t) => t.slug !== topic.slug);
@@ -81,6 +88,51 @@ export default async function TopicPage({
           ))}
         </div>
       </section>
+
+      {/* ── what has been written ──
+          The entities that actually exist. Above the outline rather than below
+          it, because a reader wants the pages they can read before the map of
+          the ones they cannot. Absent entirely until the codex is seeded. */}
+      {written.length > 0 && (
+        <section className="border-b border-gold-500/10 bg-obsidian-700 px-5 py-16 lg:py-20">
+          <div className="mx-auto max-w-[1160px]">
+            <div className="flex items-baseline gap-4">
+              <h2 className="font-display shrink-0 text-[22px] tracking-[.1em] text-parchment-100">
+                In the codex
+              </h2>
+              <span className="h-px flex-1 bg-gold-500/20" />
+              <span className="shrink-0 text-[11px] tracking-[.18em] text-stone-500">
+                {written.length}
+              </span>
+            </div>
+
+            <ul className="mt-7 grid gap-px bg-gold-500/10 sm:grid-cols-2 lg:grid-cols-3">
+              {written.map((e) => {
+                const date = entityDate(e);
+                return (
+                  <li key={e.id} className="bg-obsidian-600 p-5">
+                    <span className="block text-[9px] tracking-[.26em] text-gold-500">
+                      {KIND_LABEL[e.kind as EntityKind]?.one.toUpperCase() ?? e.kind.toUpperCase()}
+                      {date ? ` · ${date}` : ""}
+                    </span>
+                    <span className="mt-2 block">
+                      <EntityLink
+                        href={`/${e.topic}/${e.slug}`}
+                        title={e.title}
+                        summary={e.summary}
+                        kind={KIND_LABEL[e.kind as EntityKind]?.one ?? e.kind}
+                      />
+                    </span>
+                    <p className="mt-2 line-clamp-3 text-[12.5px] leading-relaxed text-stone-400">
+                      {e.summary}
+                    </p>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        </section>
+      )}
 
       {/* ── the topic's divisions ──
           Structure first, entities later. These come from the codex outline, so
