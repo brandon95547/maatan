@@ -270,6 +270,7 @@ export const NAV: NavItem[] = [
   { label: "Traditions", href: "/traditions", topic: true },
   { label: "Symbols", href: "/symbols", topic: true },
   { label: "Learn", href: "/learn" },
+  { label: "Reviews", href: "/reviews" },
   { label: "Media", href: "/media" },
   { label: "Shop", href: "/shop" },
   { label: "About", href: "/about" },

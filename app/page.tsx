@@ -1,5 +1,5 @@
 // app/page.tsx
-// The homepage: the hero plate, the gateways into the codex, and the featured band.
+// The homepage: the hero plate, the gateways into the codex, and the altar.
 //
 // A server component. The header and footer come from the layout; the only
 // interactive piece on this page is the search field, which is its own island
@@ -8,8 +8,9 @@
 
 import Link from "next/link";
 import { HOME_TOPICS, QUICK_LINKS } from "@/lib/taxonomy";
-import { Icon, IconEye, IconMetatron, WingedEye, Rule } from "@/components/icons";
+import { Icon, WingedEye, Rule } from "@/components/icons";
 import { CodexSearch } from "@/components/CodexSearch";
+import { NecronomiconAltar } from "@/components/NecronomiconAltar";
 
 export default function Home() {
   return (
@@ -85,72 +86,13 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── featured band ── */}
-      <section className="border-y border-gold-500/20 bg-obsidian-800">
-        <div className="mx-auto grid max-w-[1560px] divide-y divide-gold-500/15 lg:grid-cols-4 lg:divide-x lg:divide-y-0">
-          <article className="flex items-start gap-5 px-8 py-9">
-            <div className="min-w-0 flex-1">
-              <p className="text-[10px] tracking-[.28em] text-gold-500">FEATURED TEXT</p>
-              <h3 className="font-display mt-3 text-[26px] leading-tight text-parchment-100">
-                The Kybalion
-              </h3>
-              <p className="mt-1 text-[13px] text-stone-400">The Three Initiates</p>
-              <Link
-                href="/sacred-texts"
-                className="mt-5 inline-flex items-center gap-2 text-[13px] text-gold-400 transition hover:gap-3"
-              >
-                Read Now <span aria-hidden="true">→</span>
-              </Link>
-            </div>
-            {/* The volume itself, drawn rather than photographed. */}
-            <div className="relative hidden h-[132px] w-[92px] shrink-0 rounded-[2px] border border-gold-500/45 bg-gradient-to-br from-[#1c1813] to-obsidian-800 shadow-[0_18px_40px_#000] sm:block">
-              <div className="absolute inset-[7px] border border-gold-500/25" />
-              <div className="absolute left-1/2 top-[26%] h-9 w-9 -translate-x-1/2">
-                <IconEye className="h-full w-full text-gold-400/80" />
-              </div>
-              <p className="font-display absolute inset-x-2 bottom-4 text-center text-[8px] tracking-[.18em] text-gold-400/80">
-                KYBALION
-              </p>
-            </div>
-          </article>
+      {/* ── the altar ──
+          Replaces the old four-up band (featured text / quotation / daily
+          insight / join). The Join call to action was the one thing in that row
+          worth keeping, so it survives as the secondary button inside the new
+          section rather than being dropped with the rest. */}
+      <NecronomiconAltar />
 
-          <article className="grid place-items-center px-8 py-9">
-            <blockquote className="text-center">
-              <p className="font-display text-[17px] italic leading-relaxed text-parchment-300">
-                “The study of esotericism is the study of the self, the universe, and the divine.”
-              </p>
-              <footer className="mt-4 text-[12px] text-stone-500">— Manly P. Hall</footer>
-            </blockquote>
-          </article>
-
-          <article className="flex items-start gap-5 px-8 py-9">
-            <div className="min-w-0 flex-1">
-              <p className="text-[10px] tracking-[.28em] text-gold-500">DAILY INSIGHT</p>
-              <h3 className="font-display mt-3 text-[24px] leading-tight text-parchment-100">
-                As Above, So Below
-              </h3>
-              <p className="mt-2 text-[12px] text-gold-500">Hermetic Principle of Correspondence</p>
-              <p className="mt-3 text-[13px] leading-relaxed text-stone-400">
-                Reflect on the connections between microcosm and macrocosm.
-              </p>
-            </div>
-            <IconMetatron className="hidden h-[104px] w-[104px] shrink-0 text-gold-400/70 sm:block" />
-          </article>
-
-          <article className="px-8 py-9">
-            <p className="text-[10px] tracking-[.28em] text-gold-500">JOIN THE JOURNEY</p>
-            <p className="mt-3 text-[13px] leading-relaxed text-stone-300">
-              Create an account to save your library, notes, and continue your path of discovery.
-            </p>
-            <Link
-              href="/library"
-              className="mt-6 block rounded-[3px] bg-gradient-to-b from-gold-300 to-gold-600 px-6 py-3 text-center text-[13px] tracking-[.12em] text-black transition hover:brightness-110"
-            >
-              Join Maatan
-            </Link>
-          </article>
-        </div>
-      </section>
     </main>
   );
 }
